@@ -1,0 +1,40 @@
+- name: Test MinIO Policy Module
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Create a policy
+      minio_policy:
+        state: present
+        policy_name: test_policy
+        statements:
+          - Effect: Allow
+            Action: s3:PutObject
+            Resource: arn:aws:s3:::my-bucket/*
+        access_key: "{{ minio_access_key }}"
+        secret_key: "{{ minio_secret_key }}"
+        endpoint_url: "{{ minio_endpoint }}"
+
+    - name: Verify policy creation
+      assert:
+        that:
+          - result.policy_name == 'test_policy'
+        msg: "Policy was not created successfully."
+
+    - name: Add users to policy
+      minio_policy:
+        state: present
+        policy_name: test_policy
+        users:
+          - user1
+          - user2
+        access_key: "{{ minio_access_key }}"
+        secret_key: "{{ minio_secret_key }}"
+        endpoint_url: "{{ minio_endpoint }}"
+
+    - name: Remove policy
+      minio_policy:
+        state: absent
+        policy_name: test_policy
+        access_key: "{{ minio_access_key }}"
+        secret_key: "{{ minio_secret_key }}"
+        endpoint_url: "{{ minio_endpoint }}"

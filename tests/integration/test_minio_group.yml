@@ -1,0 +1,70 @@
+---
+- name: Test MinIO Group Module
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Create a new group
+      minio_group:
+        state: present
+        group_name: test_group
+        users:
+          - user1
+          - user2
+        access_key: minio
+        secret_key: minio123
+        endpoint_url: "https://play.min.io:9000"
+      register: create_group_result
+
+    - name: Assert group creation
+      assert:
+        that:
+          - create_group_result.changed == true
+          - create_group_result.message == "Group test_group created and users added"
+
+    - name: Update group members
+      minio_group:
+        state: present
+        group_name: test_group
+        users:
+          - user1
+          - user3
+        access_key: minio
+        secret_key: minio123
+        endpoint_url: "https://play.min.io:9000"
+      register: update_group_result
+
+    - name: Assert group update
+      assert:
+        that:
+          - update_group_result.changed == true
+          - update_group_result.message == "Group test_group members updated"
+
+    - name: Disable the group
+      minio_group:
+        state: disabled
+        group_name: test_group
+        access_key: minio
+        secret_key: minio123
+        endpoint_url: "https://play.min.io:9000"
+      register: disable_group_result
+
+    - name: Assert group disable
+      assert:
+        that:
+          - disable_group_result.changed == true
+          - disable_group_result.message == "Group test_group enabled"
+
+    - name: Remove the group
+      minio_group:
+        state: absent
+        group_name: test_group
+        access_key: minio
+        secret_key: minio123
+        endpoint_url: "https://play.min.io:9000"
+      register: remove_group_result
+
+    - name: Assert group removal
+      assert:
+        that:
+          - remove_group_result.changed == true
+          - remove_group_result.message == "Group test_group removed"

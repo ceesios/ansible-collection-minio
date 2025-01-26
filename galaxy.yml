@@ -1,0 +1,16 @@
+name: minio
+namespace: ceesios
+readme: README.md
+authors:
+  - Cees Moerkerken (@ceesios)
+version: 1.0.0
+description: Ansible collection for managing MinIO resources including users, retention policies, policies, and groups.
+license:
+  - MIT
+dependencies: {}
+tags:
+  - minio
+repository: https://github.com/ceesios/minio
+homepage: https://github.com/ceesios/minio#readme
+documentation: https://github.com/ceesios/minio/docs
+issues: https://github.com/ceesios/minio/issues

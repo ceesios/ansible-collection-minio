@@ -1,0 +1,35 @@
+- name: Test MinIO Retention Module
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Set retention policy on a bucket
+      minio_retention:
+        state: present
+        bucket_name: my-bucket
+        retention_mode: GOVERNANCE
+        retention_days: 30
+        access_key: minio
+        secret_key: minio123
+        endpoint_url: "https://play.min.io:9000"
+      register: result_set
+
+    - name: Assert retention policy was set
+      assert:
+        that:
+          - result_set.changed == true
+          - result_set.message == "Retention set for bucket my-bucket"
+
+    - name: Remove retention policy from a bucket
+      minio_retention:
+        state: absent
+        bucket_name: my-bucket
+        access_key: minio
+        secret_key: minio123
+        endpoint_url: "https://play.min.io:9000"
+      register: result_remove
+
+    - name: Assert retention policy was removed
+      assert:
+        that:
+          - result_remove.changed == true
+          - result_remove.message == "Retention removed for bucket my-bucket"

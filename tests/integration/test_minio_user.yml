@@ -1,0 +1,50 @@
+- name: Test MinIO User Module
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Create a MinIO user
+      minio_user:
+        state: present
+        user_access_key: testuser
+        user_secret_key: testpassword
+        access_key: minio
+        secret_key: minio123
+        endpoint_url: "https://play.min.io:9000"
+      register: create_user
+
+    - name: Ensure user was created
+      assert:
+        that:
+          - create_user.changed
+        fail_msg: "User was not created successfully"
+
+    - name: Update the MinIO user
+      minio_user:
+        state: present
+        user_access_key: testuser
+        user_secret_key: newpassword
+        access_key: minio
+        secret_key: minio123
+        endpoint_url: "https://play.min.io:9000"
+      register: update_user
+
+    - name: Ensure user was updated
+      assert:
+        that:
+          - update_user.changed
+        fail_msg: "User was not updated successfully"
+
+    - name: Delete the MinIO user
+      minio_user:
+        state: absent
+        user_access_key: testuser
+        access_key: minio
+        secret_key: minio123
+        endpoint_url: "https://play.min.io:9000"
+      register: delete_user
+
+    - name: Ensure user was deleted
+      assert:
+        that:
+          - delete_user.changed
+        fail_msg: "User was not deleted successfully"
