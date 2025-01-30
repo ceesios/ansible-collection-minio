@@ -12,5 +12,5 @@ tags:
   - minio
 repository: https://github.com/ceesios/ansible-collection-minio
 homepage: https://github.com/ceesios/ansible-collection-minio#readme
-documentation: https://github.com/ceesios/ansible-collection-minio/readme
+documentation: https://galaxy.ansible.com/ui/repo/published/ceesios/minio/docs/
 issues: https://github.com/ceesios/ansible-collection-minio/issues
