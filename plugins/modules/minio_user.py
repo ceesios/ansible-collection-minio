@@ -148,7 +148,7 @@ def run_module():
         module.fail_json(msg=str(e), **result)
 
     credentials = StaticProvider(access_key, secret_key)
-    client = MinioAdmin(endpoint_url, credentials=credentials, secure=use_ssl)
+    client = MinioAdmin(endpoint=endpoint_url, credentials=credentials, secure=use_ssl)
 
     try:
         user_info = None

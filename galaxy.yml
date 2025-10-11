@@ -3,7 +3,7 @@ namespace: ceesios
 readme: README.md
 authors:
   - Cees Moerkerken (@ceesios)
-version: 1.0.1
+version: 1.0.2
 description: Ansible collection for managing MinIO resources including users, retention policies, policies, and groups.
 license:
   - MIT

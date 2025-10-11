@@ -184,7 +184,7 @@ def run_module():
         module.fail_json(msg=str(e), **result)
 
     credentials = StaticProvider(access_key, secret_key)
-    client = MinioAdmin(endpoint_url, credentials=credentials, secure=use_ssl)
+    client = MinioAdmin(endpoint=endpoint_url, credentials=credentials, secure=use_ssl)
 
     policy_document_json = json.dumps({"Version": "2012-10-17", "Statement": statements})
     desired_policy = json.loads(policy_document_json)
